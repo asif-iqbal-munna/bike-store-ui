@@ -3,3 +3,45 @@
   padding: 0;
   margin: 0;
 }
+
+
+.navbar-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: 100%;
+}
+
+
+.menu-container {
+  width: 100%;
+}
+
+.auth-buttons {
+  flex: 0 0 auto;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    right: 5%;
+    display: block;
+  }
+
+  .auth-buttons {
+    display: none;
+  }
+}
+

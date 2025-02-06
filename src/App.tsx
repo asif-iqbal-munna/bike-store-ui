@@ -1,5 +1,9 @@
 import { ConfigProvider } from "antd";
-import { Button, Typography } from "antd";
+import { RouterProvider } from "react-router-dom";
+import router from "./routes/routes";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+import { Toaster } from "sonner";
 
 function App() {
   const theme = {
@@ -13,20 +17,12 @@ function App() {
     },
   };
   return (
-    <ConfigProvider theme={theme}>
-      <div
-        style={{
-          background: theme.token.colorBgBase,
-          minHeight: "100vh",
-          padding: "2rem",
-        }}
-      >
-        <Typography.Title level={2} style={{ color: theme.token.colorText }}>
-          Welcome to Ant Design Themed App
-        </Typography.Title>
-        <Button type="primary">Click Me</Button>
-      </div>
-    </ConfigProvider>
+    <Provider store={store}>
+      <ConfigProvider theme={theme}>
+        <Toaster />
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </Provider>
   );
 }
 
