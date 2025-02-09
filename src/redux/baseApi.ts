@@ -8,7 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
 import { RootState } from "./store";
-import { logout, setUser } from "../pages/login/_libs/redux/authSlice";
+import { logout, setUser } from "../pages/auth/_libs/redux/authSlice";
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL;
 

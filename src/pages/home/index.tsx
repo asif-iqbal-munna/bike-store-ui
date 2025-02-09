@@ -1,12 +1,10 @@
-import AppCarousel from "../../components/blocks/AppCarousel";
-import ImgOne from "../../assets/img/img_1.jpg";
-import ImgTwo from "../../assets/img/img_2.jpg";
-import ImgThree from "../../assets/img/img_3.jpg";
+import { AppHeader } from "../../components/blocks/AppHeader";
 
 const Home = () => {
   return (
     <section>
-      <AppCarousel height="60vh" images={[ImgOne, ImgTwo, ImgThree]} />
+      <AppHeader />
+      {/* <AppCarousel height="60vh" images={[ImgOne, ImgTwo, ImgThree]} /> */}
     </section>
   );
 };

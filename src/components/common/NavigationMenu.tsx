@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Layout, Menu, Button, Drawer, theme } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
-import Logo from "../../assets/img/logo.png";
+import {
+  logout,
+  useCurrentToken,
+} from "../../pages/auth/_libs/redux/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { verifyToken } from "../../utils/verifyToken";
 
 const { Header } = Layout;
 const { useToken } = theme;
@@ -13,12 +18,34 @@ const NavigationMenu: React.FC = () => {
   const { token } = useToken();
   const navigate = useNavigate();
 
+  const tokenState = useAppSelector(useCurrentToken);
+
+  let user;
+
+  if (token) {
+    user = verifyToken(tokenState as string);
+  }
+
+  console.log({ user });
+
+  const dispatch = useAppDispatch();
+
   const showDrawer = () => {
     setVisible(true);
   };
 
   const onClose = () => {
     setVisible(false);
+  };
+
+  const userDashboard = {
+    key: "dashboard",
+    label: <NavLink to="/user-dashboard">Dashboard</NavLink>,
+  };
+
+  const adminDashboard = {
+    key: "dashboard",
+    label: <NavLink to="/admin-dashboard">Dashboard</NavLink>,
   };
 
   const menuItems = [
@@ -34,21 +61,19 @@ const NavigationMenu: React.FC = () => {
       key: "about",
       label: <NavLink to="/about">About</NavLink>,
     },
-    {
-      key: "dashboard",
-      label: <NavLink to="/dashboard">Dashboard</NavLink>,
-    },
   ];
+
+  if (user?.role === "admin") {
+    menuItems.push(adminDashboard);
+  } else {
+    menuItems.push(userDashboard);
+  }
 
   return (
     <Header style={{ padding: 0, background: token.colorBgContainer }}>
       <div className="navbar-container">
-        <div style={{ marginTop: "20px" }}>
-          <img
-            src={Logo}
-            alt="logo"
-            style={{ width: "120px", height: "60px" }}
-          />
+        <div>
+          <h1 style={{ fontWeight: "bold", fontStyle: "italic" }}>RIDONIX</h1>
         </div>
         <div className="menu-container">
           <div className="desktop-menu">
@@ -65,14 +90,33 @@ const NavigationMenu: React.FC = () => {
           </div>
         </div>
         <div className="auth-buttons">
-          <Button
-            onClick={() => navigate("/login", { replace: true })}
-            type="default"
-            style={{ marginRight: "10px" }}
-          >
-            Login
-          </Button>
-          <Button type="primary">Register</Button>
+          {user ? (
+            <Button
+              onClick={() => {
+                dispatch(logout());
+                navigate("/auth/login", { replace: true });
+              }}
+              type="primary"
+            >
+              Logout
+            </Button>
+          ) : (
+            <>
+              <Button
+                onClick={() => navigate("/auth/login", { replace: true })}
+                type="default"
+                style={{ marginRight: "10px" }}
+              >
+                Login
+              </Button>
+              <Button
+                onClick={() => navigate("/auth/register", { replace: true })}
+                type="primary"
+              >
+                Register
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <Drawer title="Menu" placement="right" onClose={onClose} open={visible}>

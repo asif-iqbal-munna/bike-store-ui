@@ -7,7 +7,8 @@ import ManageProducts from "../pages/dashboard/products";
 import ManageOrders from "../pages/dashboard/orders";
 import AuthGuard from "../components/common/AuthGuard";
 import MainLayout from "../layouts/MainLayout";
-import Login from "../pages/login";
+import Login from "../pages/auth/login";
+import Register from "../pages/auth/register";
 
 const router = createBrowserRouter([
   {
@@ -28,9 +29,31 @@ const router = createBrowserRouter([
         element: <h1>Products</h1>,
       },
       {
-        path: "/dashboard",
+        path: "/user-dashboard",
         element: (
-          <AuthGuard>
+          <AuthGuard role="customer">
+            <Dashboard />
+          </AuthGuard>
+        ),
+        children: [
+          {
+            path: "users",
+            element: <ManageUsers />,
+          },
+          {
+            path: "products",
+            element: <ManageProducts />,
+          },
+          {
+            path: "orders",
+            element: <ManageOrders />,
+          },
+        ],
+      },
+      {
+        path: "/admin-dashboard",
+        element: (
+          <AuthGuard role="admin">
             <Dashboard />
           </AuthGuard>
         ),
@@ -53,12 +76,12 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/login",
+    path: "/auth/login",
     element: <Login />,
   },
   {
-    path: "/register",
-    element: <h1>Register</h1>,
+    path: "/auth/register",
+    element: <Register />,
   },
 ]);
 

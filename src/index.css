@@ -28,6 +28,14 @@
   display: none;
 }
 
+.app-header {
+  width: 100vw;
+  height: 60vh;
+  background-image: url("./assets/img/bgtwo.png");
+  background-size: cover;
+  background-position: center;
+}
+
 @media (max-width: 768px) {
   .desktop-menu {
     display: none;
